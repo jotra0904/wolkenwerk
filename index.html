@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wolkenwerk GmbH – Wir liefern Wolken</title>
+<meta name="description" content="Wolkenwerk liefert Wolken. Pünktlich, flauschig, frei Haus.">
+<style>
+  :root {
+    --ink: #14213d; --paper: #f7fbff; --sky: #cfe4f8; --sun: #ffb81c;
+    --storm: #5b6b85; --line: #14213d22; --cloud: #ffffff;
+    --serif: "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Trebuchet MS", "Segoe UI", Verdana, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #eaf3ff; --paper: #0e1730; --sky: #1b2c52; --line: #eaf3ff26; --cloud: #dce9fb; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 clamp(16px, 1.1vw + 10px, 19px)/1.65 var(--sans); }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+  .wrap { width: min(1100px, 92%); margin-inline: auto; }
+  h1, h2, h3 { font-family: var(--serif); line-height: 1.1; margin: 0; }
+
+  header { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); background: color-mix(in srgb, var(--paper) 75%, transparent); border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; padding-block: .8rem; }
+  .logo { font: 700 1.3rem var(--serif); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+  .logo svg { width: 38px; height: 22px; color: var(--sun); }
+  nav { display: flex; gap: 1.4rem; font-size: .95rem; }
+  nav a { text-decoration: none; opacity: .8; } nav a:hover { opacity: 1; text-decoration: underline; text-decoration-color: var(--sun); text-underline-offset: 6px; }
+
+  .hero { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--sky), var(--paper)); }
+  .hero .wrap { position: relative; padding-block: clamp(4rem, 12vw, 9rem) clamp(5rem, 14vw, 10rem); }
+  .hero h1 { font-size: clamp(2.6rem, 8.5vw, 6.2rem); max-width: 11ch; letter-spacing: -.02em; }
+  .hero p { max-width: 34ch; font-size: 1.2em; margin: 1.4rem 0 2rem; }
+  .btn { display: inline-block; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: .9em 1.7em; font: 700 1rem var(--sans); text-decoration: none; cursor: pointer; transition: background .2s, color .2s, transform .2s; }
+  .btn:hover { background: var(--sun); color: #14213d; transform: translateY(-2px); }
+  .sun { position: absolute; right: 8%; top: 12%; width: clamp(90px, 16vw, 190px); aspect-ratio: 1; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 clamp(12px, 3vw, 36px) #ffb81c33, 0 0 0 clamp(28px, 6vw, 72px) #ffb81c1f; }
+  .drift { position: absolute; color: var(--cloud); opacity: .95; animation: drift linear infinite; }
+  .drift.a { top: 16%; width: 260px; animation-duration: 48s; left: -300px; }
+  .drift.b { top: 52%; width: 180px; animation-duration: 36s; animation-delay: -14s; left: -300px; }
+  .drift.c { top: 74%; width: 340px; animation-duration: 70s; animation-delay: -30s; left: -380px; }
+  @keyframes drift { to { transform: translateX(calc(100vw + 700px)); } }
+
+  section { padding-block: clamp(3.5rem, 9vw, 6.5rem); }
+  h2 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 2rem; max-width: 18ch; }
+
+  .row { display: grid; grid-template-columns: 110px 1fr auto; gap: 1.5rem; align-items: center; padding-block: 1.6rem; border-top: 1px solid var(--line); }
+  .row:last-child { border-bottom: 1px solid var(--line); }
+  .row svg { width: 100px; height: 56px; }
+  .row h3 { font-size: 1.5rem; margin-bottom: .2rem; }
+  .row p { margin: 0; opacity: .8; max-width: 46ch; }
+  .row .from { font: 700 1.2rem var(--serif); white-space: nowrap; }
+
+  .config { background: var(--sky); }
+  .cfg { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+  fieldset { border: 0; padding: 0; margin: 0 0 1.4rem; }
+  legend { font-weight: 700; margin-bottom: .5rem; padding: 0; }
+  .opts { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .opts label { cursor: pointer; }
+  .opts input { position: absolute; opacity: 0; }
+  .opts span { display: inline-block; padding: .5em 1.1em; border: 2px solid var(--ink); border-radius: 999px; transition: background .15s, color .15s; }
+  .opts input:checked + span { background: var(--ink); color: var(--paper); }
+  .opts input:focus-visible + span { outline: 3px solid var(--sun); outline-offset: 2px; }
+  input[type=range] { width: 100%; accent-color: var(--sun); }
+  .stage { aspect-ratio: 1; background: var(--paper); border-radius: 28px; display: grid; place-items: center; overflow: hidden; }
+  .stage svg { width: 80%; transition: transform .4s cubic-bezier(.3, 1.4, .5, 1); }
+  .price { font: 700 clamp(2rem, 5vw, 3rem) var(--serif); margin: 1rem 0 .2rem; }
+  #msg { min-height: 1.6em; margin-top: 1rem; font-weight: 700; }
+
+  blockquote { margin: 0; padding: 1.4rem 0 1.4rem 1.4rem; border-left: 5px solid var(--sun); max-width: 52ch; }
+  blockquote + blockquote { margin-top: 1.2rem; }
+  blockquote p { margin: 0 0 .4rem; font: italic 1.35rem/1.4 var(--serif); }
+  blockquote footer { font-size: .9rem; opacity: .7; }
+
+  .end { background: var(--ink); color: var(--paper); padding-block: 3rem; font-size: .95rem; }
+  .end .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+
+  @media (max-width: 760px) {
+    nav { display: none; }
+    .row { grid-template-columns: 70px 1fr; } .row svg { width: 64px; } .row .from { grid-column: 2; }
+    .cfg { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { .drift { animation: none; left: 10%; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="cloud" viewBox="0 0 200 110" fill="currentColor">
+    <circle cx="62" cy="68" r="30"/><circle cx="102" cy="48" r="40"/><circle cx="146" cy="68" r="32"/>
+    <rect x="62" y="68" width="84" height="32" rx="16"/><rect x="32" y="70" width="140" height="30" rx="15"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top"><svg><use href="#cloud"/></svg>Wolkenwerk</a>
+    <nav><a href="#sortiment">Sortiment</a><a href="#konfigurator">Konfigurator</a><a href="#stimmen">Kundenstimmen</a></nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="sun"></div>
+    <svg class="drift a"><use href="#cloud"/></svg>
+    <svg class="drift b"><use href="#cloud"/></svg>
+    <svg class="drift c"><use href="#cloud"/></svg>
+    <div class="wrap">
+      <h1>Wir liefern Wolken.</h1>
+      <p>Frisch geformt, flauschig verpackt und pünktlich vor deine Haustür geschwebt. Seit der ersten Morgendämmerung.</p>
+      <a class="btn" href="#konfigurator">Wolke zusammenstellen</a>
+    </div>
+  </div>
+
+  <section id="sortiment">
+    <div class="wrap">
+      <h2>Für jedes Wetter die richtige Wolke</h2>
+      <div class="row">
+        <svg style="color:#8fbbe6" aria-hidden="true"><use href="#cloud"/></svg>
+        <div><h3>Schäfchenwolke</h3><p>Der Klassiker. Weiß, weich und perfekt für Nachmittage im Gras.</p></div>
+        <span class="from">ab 49 €</span>
+      </div>
+      <div class="row">
+        <svg style="color:var(--storm)" aria-hidden="true"><use href="#cloud"/></svg>
+        <div><h3>Gewitterwolke</h3><p>Für dramatische Auftritte. Donner und Blitze sind inklusive, Regenschirm nicht.</p></div>
+        <span class="from">ab 89 €</span>
+      </div>
+      <div class="row">
+        <svg style="color:var(--sun)" aria-hidden="true"><use href="#cloud"/></svg>
+        <div><h3>Regenbogenwolke</h3><p>Unser Premiumprodukt. Bunt, selten und garantiert ein Foto wert.</p></div>
+        <span class="from">ab 129 €</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="konfigurator" class="config">
+    <div class="wrap">
+      <h2>Stell dir deine Wolke zusammen</h2>
+      <div class="cfg">
+        <form id="f" onsubmit="return false">
+          <fieldset>
+            <legend>Sorte</legend>
+            <div class="opts">
+              <label><input type="radio" name="t" value="schaf" checked><span>Schäfchen</span></label>
+              <label><input type="radio" name="t" value="gewitter"><span>Gewitter</span></label>
+              <label><input type="radio" name="t" value="regenbogen"><span>Regenbogen</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Größe: <span id="sz">5</span> Fußballfelder</legend>
+            <input id="size" type="range" min="1" max="10" value="5" aria-label="Größe in Fußballfeldern">
+          </fieldset>
+          <fieldset>
+            <legend>Lieferung</legend>
+            <div class="opts">
+              <label><input type="radio" name="s" value="normal" checked><span>Normal</span></label>
+              <label><input type="radio" name="s" value="express"><span>Express</span></label>
+            </div>
+          </fieldset>
+          <div class="price" id="price"></div>
+          <div id="when"></div>
+          <button class="btn" id="order" type="button" style="margin-top:1.2rem">Jetzt bestellen</button>
+          <div id="msg" role="status"></div>
+        </form>
+        <div class="stage">
+          <svg id="prev" viewBox="0 0 240 180" aria-label="Vorschau deiner Wolke"></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stimmen">
+    <div class="wrap">
+      <h2>Das sagen unsere Kunden</h2>
+      <blockquote><p>Die Wolke kam vor dem Frühstück an und passte genau über meinen Balkon.</p><footer>Frau Regenfeld, Hobbygärtnerin</footer></blockquote>
+      <blockquote><p>Ich bestelle nur noch Gewitter. Mein Nachbar grüßt mich jetzt sehr höflich.</p><footer>Herr Donnerstag, Rentner</footer></blockquote>
+      <blockquote><p>Endlich ein Unternehmen, das Wetter ernst nimmt.</p><footer>Lina Sonnenschein, Wetterfrosch</footer></blockquote>
+    </div>
+  </section>
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <span>Wolkenwerk GmbH · Himmelsweg 7 · 00000 Oben</span>
+    <span>Ein Spaßprojekt. Es gibt keine echte Firma und keine echten Wolken.</span>
+  </div>
+</footer>
+
+<script>
+  const $ = s => document.querySelector(s);
+  const BASE = { schaf: 49, gewitter: 89, regenbogen: 129 };
+  const COLOR = { schaf: "#ffffff", gewitter: "#5b6b85", regenbogen: "#ffffff" };
+
+  function art(type) {
+    const rainbow = type === "regenbogen" ? ["#e63946", "#ffb81c", "#4caf50", "#2a9df4", "#7b4fd8"]
+      .map((c, i) => `<path d="M${20 + i * 9} 140 A${100 - i * 9} ${100 - i * 9} 0 0 1 ${220 - i * 9} 140" fill="none" stroke="${c}" stroke-width="8" opacity=".85"/>`).join("") : "";
+    const bolt = type === "gewitter" ? `<polygon points="126,100 100,140 120,140 108,172 150,122 128,122 140,100" fill="#ffb81c"/>` : "";
+    return `${rainbow}
+      <g fill="${COLOR[type]}" stroke="#14213d33" stroke-width="2">
+        <circle cx="82" cy="92" r="30"/><circle cx="122" cy="72" r="40"/><circle cx="166" cy="92" r="32"/>
+        <rect x="52" y="92" width="146" height="32" rx="16" stroke="none"/>
+      </g>${bolt}`;
+  }
+
+  function update() {
+    const type = document.querySelector('input[name=t]:checked').value;
+    const fast = document.querySelector('input[name=s]:checked').value === "express";
+    const size = +$("#size").value;
+    const price = BASE[type] * size * (fast ? 1.6 : 1);
+    $("#sz").textContent = size;
+    $("#price").textContent = price.toLocaleString("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+    $("#when").textContent = fast ? "Lieferung in 3 Stunden, mit Rückenwind." : "Lieferung in 3 Tagen, mit der Sommerbrise.";
+    $("#prev").innerHTML = art(type);
+    $("#prev").style.transform = `scale(${0.55 + size * 0.09})`;
+    $("#msg").textContent = "";
+  }
+
+  document.getElementById("f").addEventListener("input", update);
+  $("#order").addEventListener("click", () => {
+    $("#msg").textContent = "Bestellung eingegangen! Deine Wolke ist unterwegs (nur Spaß, aber schön wär's).";
+  });
+  update();
+</script>
+</body>
+</html>
